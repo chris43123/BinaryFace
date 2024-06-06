@@ -36,7 +36,7 @@
         #video-container, #output-container {
             width: 800px;
             height: 1000px;
-            border: 2px solid white; /* Cambiar el color del borde */
+            border: 2px solid white;
             background-color: white;
             display: flex;
             justify-content: center;
@@ -46,6 +46,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transform: scaleX(-1); /* Voltear horizontalmente */
         }
         #capture {
             display: block;
@@ -76,7 +77,7 @@
             height: 1000px;
             margin: 20px auto;
             overflow: hidden;
-            font-size: 4px; /* Reducir el tamaño de los 0 y 1 */
+            font-size: 4px;
         }
         @media (max-width: 768px) {
             h1 {
@@ -141,6 +142,10 @@
             canvas.width = 300;
             canvas.height = 300;
             const context = canvas.getContext('2d');
+
+            // Voltear el contexto horizontalmente antes de dibujar la imagen
+            context.translate(canvas.width, 0);
+            context.scale(-1, 1);
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
             const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -157,7 +162,7 @@
                 const g = data[i + 1];
                 const b = data[i + 2];
                 const grayscale = 0.3 * r + 0.59 * g + 0.11 * b;
-                const bit = grayscale < 130 ? 0 : 1; // Ajustar el umbral
+                const bit = grayscale < 130 ? 0 : 1;
                 binaryPortrait.push(bit);
             }
             return binaryPortrait;
